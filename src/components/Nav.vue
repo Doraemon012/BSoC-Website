@@ -96,7 +96,7 @@ export default {
         } else {
           isloggedIn.value = false;
         }
-      });
+      }); 
     };
 
     const isHonePage = () => {

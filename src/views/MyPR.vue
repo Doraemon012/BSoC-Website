@@ -9,8 +9,11 @@
                 <div class="heading3"><span>Latest PR</span></div>
                 <div class="heading4"><span>Time Added</span></div>
             </div>
+            
+
             <div v-for="user in formattedDocuments" :key="user.time">
-                <div class="table-content">
+                
+                <div class="table-content"><!--yeh hai-->
                     <div class="heading1 text-white">
                         <span>{{ user.displayName }}</span>
                     </div>
@@ -21,7 +24,12 @@
                     <div class="heading4 text-white">
                         <span>{{ user.time }}</span>
                     </div>
-                </div>
+
+                    <!-- icon -->
+                    <div>        
+                    <img @click="delete_pr(user.id)" :id="set_id(user.id)" src="../assets/delete-icon.svg" style="&:hover{background-color: aqua; cursor: pointer;}; height: 1.5rem; width: 1.5rem;" alt="delete">
+                    </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -44,8 +52,34 @@ export default {
     components: {
         Nav,
     },
+
+    methods :
+    {
+        set_id (id){
+            return id;
+        },
+
+        delete_pr (id) {
+            this.formattedUserPRData.filter((doc) => {
+                
+                if (doc.id == id){
+                    console.log("i am going to get deleted",doc.id,doc)
+                    console.log("i am pr",this.formattedUserPRData)
+                    
+                    // doc.delete().then(() => {
+                    //     alert("something ded")
+                    //     console.log(docRef + " deleted")
+                    // }).catch((e) => {
+                    //     console.log(e.message)
+                    // })
+                    return doc.id}
+            })
+            
+        }
+    },
+
     setup() {
-        const { documents } = getCollection("dashboard-2023");
+        const { documents } = getCollection("dashboard-2023"); //get full
         const started = ref(true);
         const userPR = ref(false);
         var userData = new Map();
@@ -66,11 +100,12 @@ export default {
                     let time = formatDistanceToNow(doc.time.toDate());
                     return { ...doc, time: time, time_sec: doc.time };
                 });
-                console.log("hello",userData)
+                console.log("hello",userData) //full data
                 userPRData = userData.filter((doc) => {
                     return doc.uid == userUID;
                 });
-                console.log("hello",userPRData)
+                
+                console.log("yeh hai",userPRData) //user
                 return userPRData;
 
             }
@@ -191,11 +226,12 @@ export default {
     margin: 40px auto;
     border-radius: 16px;
 }
+/* <!--cols 4--> */
 
 .table-heading {
     display: grid;
     background: #eaeaef;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 0px;
     padding: 25px 0;
     border-top-left-radius: 15px;
@@ -208,9 +244,10 @@ export default {
     text-align: center;
 }
 
+/* <!--cols 4--> */
 .table-content {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 0px;
     padding: 25px 0;
     font-weight: 400;

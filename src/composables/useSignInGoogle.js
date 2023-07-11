@@ -1,4 +1,4 @@
-import firebase from "firebase/compat";
+import firebase from "firebase";
 import {ref} from "vue";
 
 const err = ref(null)
